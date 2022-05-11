@@ -1,34 +1,15 @@
 import * as React from 'react';
-import { useCurrentUser } from '../../shared/context/UserContext';
 import useRequest from '../../shared/hooks/useRequest';
 import { Conversation } from '../../types/conversation';
 import { User } from '../../types/user';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import ConversationsListSkeleton from './ConversationSkeleton';
-
-
-
-
-
-const getConversationTitle = (conversation: Conversation, currentUser: User) => {
-  if (currentUser.nickname !== conversation.senderNickname) {
-    return conversation.senderNickname;
-  }
-  return conversation.recipientNickname;
-
-}
+import { getConversationTitle } from '../../shared/utils';
 const ConversationsList: React.FunctionComponent = () => {
-
   const { data: session, status } = useSession();
-
-  console.log('status ConversationsList', status);
-  console.log('status ConversationsList', session);
   const url = status!== 'loading' && session ? `${process.env.NEXT_PUBLIC_API_URL}/conversations/${session.id}` : null;
-
   const { data: userConversations } = useRequest<Conversation[]>({ url });
-  console.log('userConversations', userConversations);
-
   return (
 
     <div>
@@ -37,7 +18,7 @@ const ConversationsList: React.FunctionComponent = () => {
         <div className="flow-root mt-6">
           <ul role="list" className="-my-5 divide-y divide-gray-200">
             {userConversations?.map((oneConversation) => {
-              const conversationTitle = getConversationTitle(oneConversation, session.user);
+              const conversationTitle = getConversationTitle(oneConversation, session.id as number);
               return (
                 <li key={oneConversation.id} className="py-4 hover:bg-orange-300 px-3" >
 

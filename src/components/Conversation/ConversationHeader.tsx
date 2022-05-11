@@ -15,15 +15,12 @@ const ConversationHeader: React.FunctionComponent = () => {
   const { data: session, status } = useSession();
   const url = conversationId ? `${process.env.NEXT_PUBLIC_API_URL}/conversation/details/${conversationId}` : null;
   const { data: conversation, error } = useRequest<Conversation>({ url });
-  if (conversation?.lastMessageTimestamp) {
-    console.log('ConversationHeader',);
-    // console.log('ConversationHeader', conversation?.lastMessageTimestamp);
-  }
+  
 
   return (
     <div className='flex justify-between border-b border-gray-800 mb-10 items-center'>
       <h1 className='font-bold text-2xl capitalize text-gray-700 '>
-        {getConversationTitle(conversation, session?.id)}
+        {getConversationTitle(conversation, session.id as number)}
       </h1>
       <span className='text-sm'>{`last message, ${new DateTime.fromSeconds(parseInt(conversation?.lastMessageTimestamp)).toRelative()}`}</span>
     </div>

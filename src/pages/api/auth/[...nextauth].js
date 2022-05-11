@@ -15,8 +15,7 @@ const options = {
       },
       async authorize(credentials) {
         try {
-          const { data: allUsers } = await axios.get<User[]>(`${process.env.NEXT_PUBLIC_API_URL}/users`);
-          console.log('all users', allUsers);
+          const { data: allUsers } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
           const user = allUsers.find((item)=>{
            
             return item?.nickname.toLowerCase() === credentials?.nickname.toLowerCase();
@@ -56,9 +55,7 @@ const options = {
 
   },
   theme: {
-    colorScheme: "light",
     brandColor: "#f97316"
-  
   },
   debug: process.env.NODE_ENV === 'development',
 };
