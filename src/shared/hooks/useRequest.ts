@@ -21,7 +21,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
   request: GetRequest,
   { fallbackData, ...config }: Config<Data, Error> = {},
 ): Return<Data, Error> {
-  const {
+    const {
     data: response,
     error,
     isValidating,

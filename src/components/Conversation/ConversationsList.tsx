@@ -1,74 +1,70 @@
 import * as React from 'react';
 import { useCurrentUser } from '../../shared/context/UserContext';
-import Conversation from '../../shared/interfaces/Conversation';
+import useRequest from '../../shared/hooks/useRequest';
+import { Conversation } from '../../types/conversation';
+import { User } from '../../types/user';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import ConversationsListSkeleton from './ConversationSkeleton';
 
 
-interface IConversationsListProps {
-  conversationsList: Conversation[];
-  children: React.ReactNode,
+
+
+
+const getConversationTitle = (conversation: Conversation, currentUser: User) => {
+  if (currentUser.nickname !== conversation.senderNickname) {
+    return conversation.senderNickname;
+  }
+  return conversation.recipientNickname;
+
 }
-const people = [
-  {
-    name: 'Leonard Krasner',
-    handle: 'leonardkrasner',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Floyd Miles',
-    handle: 'floydmiles',
-    imageUrl:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Emily Selman',
-    handle: 'emilyselman',
-    imageUrl:
-      'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Kristin Watson',
-    handle: 'kristinwatson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-]
-const ConversationsList: React.FunctionComponent<IConversationsListProps> = ({ conversationsList,
-  children
+const ConversationsList: React.FunctionComponent = () => {
 
-}) => {
+  const { data: session, status } = useSession();
 
-  const test = useCurrentUser();
-  console.log('CURRENT USER', test);
+  console.log('status ConversationsList', status);
+  console.log('status ConversationsList', session);
+  const url = status!== 'loading' && session ? `${process.env.NEXT_PUBLIC_API_URL}/conversations/${session.id}` : null;
+
+  const { data: userConversations } = useRequest<Conversation[]>({ url });
+  console.log('userConversations', userConversations);
+
   return (
+
     <div>
-      <div className="flow-root mt-6">
-        <ul role="list" className="-my-5 divide-y divide-gray-200">
-          {people.map((person) => (
-            <li key={person.handle} className="py-4">
-              <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0">
-                  <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
-                  <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
-                </div>
-                <div>
-                  <a
-                    href="#"
-                    className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    View
-                  </a>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <main>{children}</main>
-    </div>
+      <h1 className='font-bold text-2xl capitalize text-orange-500'>Mes conversations</h1>
+      {status === 'loading' ? (<ConversationsListSkeleton />) : (
+        <div className="flow-root mt-6">
+          <ul role="list" className="-my-5 divide-y divide-gray-200">
+            {userConversations?.map((oneConversation) => {
+              const conversationTitle = getConversationTitle(oneConversation, session.user);
+              return (
+                <li key={oneConversation.id} className="py-4 hover:bg-orange-300 px-3" >
+
+                  <Link href={`/conversation/${oneConversation.id}`} passHref>
+                    <a>
+                      <div className="flex items-center space-x-4">
+                        <div className="rounded-full w-8 h-8  inline-flex items-center justify-center bg-orange-600">
+                          <span className="font-lato font-semibold leading-none text-selago uppercase text-white">{conversationTitle.substring(0, 1)}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">{conversationTitle}</p>
+                          <p className="text-sm text-gray-500 lowercase">{`@${conversationTitle}`}</p>
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+
+    </div >
   );
 };
 

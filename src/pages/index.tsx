@@ -1,18 +1,19 @@
-import type { FC } from 'react'
-import Head from 'next/head'
-import Image from 'next/image'
-import Logo from '../assets/lbc-logo.webp'
-import styles from '../styles/Home.module.css'
+import React from 'react'
+import { useSession } from 'next-auth/react';
+
 import ConversationsList from '../components/Conversation/ConversationsList'
 
-const Home: FC = () => {
-  const year = new Date().getFullYear()
+const Home: React.FC = () => {
 
-  return (
-    <div className={styles.container}>
-      <ConversationsList />
-    </div>
-  )
+  const {data:session, status} = useSession();
+  
+  if(status === 'loading'){
+    return <Spinner />;
+  }else if(status ==='unauthenticated'){
+    return <div>please signin to see your messages</div>
+  }else {
+    return  <ConversationsList  />
+  }
 }
 
 export default Home
