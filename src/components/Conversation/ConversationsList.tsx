@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Conversation from '../../shared/interfaces/conversation';
-import useSWR from 'swr'
-import { fetcher } from '../../shared/fetcher';
+import { useCurrentUser } from '../../shared/context/UserContext';
+import Conversation from '../../shared/interfaces/Conversation';
+
 
 interface IConversationsListProps {
   conversationsList: Conversation[];
@@ -33,13 +33,13 @@ const people = [
       'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
 ]
-const ConversationsList: React.FunctionComponent<IConversationsListProps> = ({ conversationsList
+const ConversationsList: React.FunctionComponent<IConversationsListProps> = ({ conversationsList,
+  children
 
 }) => {
 
-  const { data, error } = useSWR('/api/profile-data', fetcher);
-  console.log('data',data);
-  console.log('error',error);
+  const test = useCurrentUser();
+  console.log('CURRENT USER', test);
   return (
     <div>
       <div className="flow-root mt-6">
