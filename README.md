@@ -1,71 +1,85 @@
-# Context :
+# Context
 
 At leboncoin, our users can share messages about a transaction, or ask for informations about any products.
 
-Your job is to create the interface to consult those messages.
-The interface needs to work on both desktop & mobile devices.
+The application purpose is to create the interface to consult those messages.
+The interface works on both desktop & mobile devices.
 
-In addition to your code, a README explaining your thought process and your choices would be appreciated.
+# Installation & running
 
-# Exercice :
+- clone the code repository
 
-- Display a list of all the conversations
-- Allow the user to select a conversation
-  - Inside the conversation, there is a list of all the messages between these two users.
-  - As a user, you can type and send new messages in this conversation
+`git clone https://github.com/ayhid/frontend-technical-test`
 
-**As your application can be used by millions of users, make sure to provide some robust safety guards.**
+- Install dependecies
 
-### Sketches :
+go to the cloned project code and run the following command
 
-Obvisouly, it is up to you to make something nice and pretty, you are free to design it the way you like. The sketches are here to give you an idea on how it should look.
+`cd frontend-technical-test && yarn`
 
-<details>
-  <summary>Click to see the sketches</summary>
-  
-Mobile list :
+- run the application for development
 
-![](./sketches/list-mobile.jpg)
+`yarn dev`
 
-Desktop list :
 
-![](./sketches/list-desktop.jpg)
+# Technical Stack
 
-Mobile conversation :
+## Frontend
 
-![](./sketches/conv-mobile.jpg)
+The application is built with [NextJS framework](https://nextjs.org/)
 
-Desktop conversation :
+### Design and Styling
 
-![](./sketches/conv-desktop.jpg)
+Theme and styles are built using [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) wich is a utility first framework. Simple yet very powerful providing sleek design, rich color palette and backedup with a huge community: ~56k stars on github at the time of writing this documentation.
 
-</details>
 
-### API :
+## Backend 
+In addition of being a frontend framework NextJS provides a solution to build APIs.
 
-You can find the API swagger file in `docs/api-swagger.yaml`.
 
-For a better readibility, you can view it on [https://leboncoin.tech/frontend-technical-test/](https://leboncoin.tech/frontend-technical-test/).
 
----
 
-## Bonus 1 :
+# Application Building Blocks
 
-We provide some conversation samples, but can you improve the app so the user can now create new conversations ?
+From the NextJS offcial routing documentation: 
 
-## Bonus 2 :
+> Next.js has a file-system based router built on the concept of pages.
 
-Our infrastructure is a bit shaky.. Sometimes the servers are crashing. “It’s not you, it’s me”, but maybe you can display something nice to warn the user and handle it gracefully.
+>When a file is added to the pages directory, it's automatically available as a route.
 
-## Do you want to make the app even better ?
+>The files inside the pages directory can be used to define most common patterns.
 
-Feel free to make as many improvements as you like.
-We love creativity and technical challenges.
+```
+src  
+└─ pages
+│   │   index.tsx
+│   │
+│   └─── api
+│       │   file111.txt
+│       │   file112.txt   
+└─ components
+  │   
+  └─ Conversation // conversation related components
+  │     
+  └─ Message // message related components
+```
 
-If you are out of ideas, here are some thoughts :
+`src/pages/index.tsx` will be the root url of our project that displays current signed in user conversation
 
-- As we want to reach our users anywhere, we need to make sure the app is performing well. What can you do to make it really fast ?
+## Authentication
 
-- Our goal is to support everybody in the country, including people with disabilities. As a good citizen and a good developer, can you make sure the app is accessible for everyone ?
+The application uses [NextAuth.js](https://next-auth.js.org/) to mock real authentication mechanisms.
 
-- We all love to relax after a hard day’s work. It would be a shame if we didn’t feel confident enough about the upcoming automatic deployment. Are you sure everything has been tested thoroughly ?
+The current system is just using users nicknames to signin a user.
+
+It can be easily updated to handle any other authentication strategy 
+
+## Data Fetching
+
+The application uses the [SWR react hooks](https://swr.vercel.app/) and the [axios](https://axios-http.com/) library to handle data fetching.
+
+From the SWR official documentation:
+
+> The name “SWR” is derived from stale-while-revalidate, a HTTP cache invalidation strategy popularized by HTTP RFC 5861. SWR is a strategy to first return the data from cache (stale), then send the fetch request (revalidate), and finally come with the up-to-date data.
+> With SWR, components will get a stream of data updates constantly and automatically.
+> And the UI will be always fast and reactive.
