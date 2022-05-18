@@ -52,11 +52,8 @@ From the NextJS offcial routing documentation:
 ```
 src  
 └─ pages
-│   │   index.tsx
-│   │
-│   └─── api
-│       │   file111.txt
-│       │   file112.txt   
+│   └─  index.tsx //home page
+│  
 └─ components
   │   
   └─ Conversation // conversation related components
@@ -83,3 +80,25 @@ From the SWR official documentation:
 > The name “SWR” is derived from stale-while-revalidate, a HTTP cache invalidation strategy popularized by HTTP RFC 5861. SWR is a strategy to first return the data from cache (stale), then send the fetch request (revalidate), and finally come with the up-to-date data.
 > With SWR, components will get a stream of data updates constantly and automatically.
 > And the UI will be always fast and reactive.
+
+## Testing
+
+In this context, the bias for playing the tests is in favor of end-to-end testing.
+
+Because these repeat exactly the actions performed by the real user of the application.
+
+The choice is fixed on the [cypress](https://www.cypress.io/) library to run these tests.
+
+## Running Tests.
+
+First of all make sure that the server application is running.
+
+Run the command: `yarn e2e` in a terminal to run the tests.
+
+The `yarn e2e` command performs a production build in order to be as close as possible to the application that will be deployed in production.
+
+It then launches the next application in production mode to finally run the tests on it.
+
+The `start-server-and-test` library guarantees that the tests will only be launched when the application is ready to be used.
+
+
