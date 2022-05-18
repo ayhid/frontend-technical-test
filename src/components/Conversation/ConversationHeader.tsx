@@ -19,7 +19,7 @@ const ConversationHeader: React.FunctionComponent = () => {
 
   return (
     <div className='flex justify-between border-b border-gray-800 mb-10 items-center'>
-      <h1 className='font-bold text-2xl capitalize text-gray-700 '>
+      <h1 className='font-bold text-2xl capitalize text-gray-700' data-test="conversation-title">
         {getConversationTitle(conversation, session.id as number)}
       </h1>
       <span className='text-sm'>{`last message, ${new DateTime.fromSeconds(parseInt(conversation?.lastMessageTimestamp)).toRelative()}`}</span>

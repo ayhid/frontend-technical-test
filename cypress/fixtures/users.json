@@ -1,0 +1,22 @@
+{
+  "thibaut": {
+    "id": 1,
+    "nickname": "Thibaut",
+    "token": "xxxx"
+  },
+  "jeremie": {
+    "id": 2,
+    "nickname": "Jeremie",
+    "token": "xxxx"
+  },
+  "patrick": {
+    "id": 3,
+    "nickname": "Patrick",
+    "token": "xxxx"
+  },
+  "elodie": {
+    "id": 4,
+    "nickname": "Elodie",
+    "token": "xxxx"
+  }
+}

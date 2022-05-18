@@ -15,7 +15,7 @@ const MessagesList: React.FunctionComponent<IMessagesListProps> = ({ messages })
     <>
       {status === 'loading' ? (
         <Loader />
-      ) : (<div className='flex-col space-y-3'>
+      ) : (<div className='flex-col space-y-3 ' data-test="messages-list">
         {messages?.sort((item1, item2) => {
           if (item1.timestamp < item2.timestamp) {
             return -1;
