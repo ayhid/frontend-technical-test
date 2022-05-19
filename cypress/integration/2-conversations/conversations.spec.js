@@ -10,10 +10,9 @@ describe('User Conversations', () => {
     cy.fixture('users').then((users) => {
       // Login with user Thibault
       cy.login(users['thibaut']);
-      cy.get('a[data-test=conversation-link]')
+      cy.get('button[data-test=conversation-item]')
         .first()
         .click();
-        cy.url().should('contain','/conversation/')
         cy.get('[data-test=conversation-title]').should('be.visible').should('not.be.empty');
         cy.get('[data-test=messages-list]').should('be.visible');
       cy.get('[data-test=messages-list] > div').should('not.be.empty');

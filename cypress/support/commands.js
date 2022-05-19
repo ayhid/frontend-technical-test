@@ -19,8 +19,7 @@ Cypress.Commands.add('login', (user) => {
   Cypress.log({ displayName: `Testing with User ${user.nickname}` })
   cy.get('#input-nickname-for-credentials-provider').type(user.nickname)
   cy.get('button').click();
-  cy.get('[data-test=conversations-title]').should('be.visible').should('have.text', 'Mes conversations');
-  
+  cy.get('[data-test=conversations-list-default-message]').should('be.visible');
 })
 //
 //

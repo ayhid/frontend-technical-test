@@ -54,14 +54,10 @@ src
 └─ pages
 │   └─  index.tsx //home page
 │  
-└─ components
-  │   
-  └─ Conversation // conversation related components
-  │     
-  └─ Message // message related components
+└─ components // application components
 ```
 
-`src/pages/index.tsx` will be the root url of our project that displays current signed in user conversation
+`src/pages/index.tsx` will be the root url of our project that displays current signed in user conversations
 
 ## Authentication
 
